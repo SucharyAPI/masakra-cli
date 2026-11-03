@@ -8,6 +8,8 @@ import (
 	"math/rand/v2"
 )
 
+// ======	FUNKCJA ZWRACAJĄCA MASAKRĘ ======
+
 //go:embed dane.json
 var plikJSON []byte
 
@@ -20,7 +22,7 @@ type Dane struct {
 	Kol6 []string `json:"kol6"`
 }
 
-func main() {
+func masakra() string {
 	var dane Dane
 
 	err := json.Unmarshal(plikJSON, &dane)
@@ -38,5 +40,32 @@ func main() {
 	var masakra string
 	masakra = wybor1 + wybor2 + wybor3 + wybor4 + wybor5 + wybor6
 
+	return masakra
+}
+
+// ========================================
+
+// ====== FUNKCJA DRUKUJĄCA MASAKRĘ =======
+
+func drukujMasakre() {
+	masakra := masakra()
+
 	fmt.Println(masakra)
+}
+
+// ========================================
+
+// ==== FUNKCJA DRUKUJĄCA WIELE MASAKR ====
+
+func drukujKilka(ilosc int) {
+	for i := 1; i == ilosc; i++ {
+		masakra := masakra()
+		fmt.Printf("%d. %s", i, masakra)
+	}
+}
+
+// ========================================
+
+func main() {
+
 }
