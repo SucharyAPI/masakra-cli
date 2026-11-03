@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"log"
 	"math/rand/v2"
+	"os"
+	"strconv"
 )
 
 // ======	FUNKCJA ZWRACAJĄCA MASAKRĘ ======
@@ -27,7 +29,7 @@ func masakra() string {
 
 	err := json.Unmarshal(plikJSON, &dane)
 	if err != nil {
-		log.Fatalf("Błąd dekodowania JSON: %v", err)
+		log.Fatalf("Błąd krytyczny! Błąd dekodowania JSON: %v", err)
 	}
 
 	wybor1 := dane.Kol1[rand.IntN(len(dane.Kol1))]
@@ -58,14 +60,37 @@ func drukujMasakre() {
 // ==== FUNKCJA DRUKUJĄCA WIELE MASAKR ====
 
 func drukujKilka(ilosc int) {
-	for i := 1; i == ilosc; i++ {
+	for i := 1; i <= ilosc; i++ {
 		masakra := masakra()
-		fmt.Printf("%d. %s", i, masakra)
+		fmt.Printf("%d. %s\n", i, masakra)
 	}
 }
 
 // ========================================
 
 func main() {
+	komenda := ""
+	if len(os.Args) > 1 {
+		komenda = os.Args[1]
+	}
 
+	if komenda == "" {
+		drukujMasakre()
+		return
+	}
+
+	ilosc, err := strconv.Atoi(komenda)
+	if err != nil {
+		log.Fatalf("Błąd krytyczny! Można wprowadzać jedynie liczby naturalne! %v\n", err)
+	}
+	if ilosc > 100 {
+		log.Println("Zbyt duża liczba!")
+		return
+	}
+	if ilosc < 1 {
+		log.Println("Wpisana liczba nie może być mniejsza niż 1!")
+		return
+	}
+
+	drukujKilka(ilosc)
 }
